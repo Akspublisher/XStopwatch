@@ -1,19 +1,47 @@
-import  React, { useState } from 'react';  
+import  React, { useState, useRef } from 'react';  
 
-export default function StopWatch() {
-const [timeNew, setTimeNew] = useState("0:00");
+export default function Stopwatch() {
+const [timeNew, setTimeNew] = useState(0);
+const [isActive, setIsActive] = useState(false);  
+const intervalRef = useRef(null);
 
+const startTimer = () => {
+  if (!isActive) {
+    intervalRef.current = setInterval(() => {
+      setTimeNew((prevTime) => prevTime + 1);
+    }, 1000);
+    setIsActive(true);
+  }
+}
+  
+  const stopTimer = () => {
+  clearInterval(intervalRef.current);
+  setIsActive(false)
+} 
+const resetTimer = () => {
+  clearInterval(intervalRef.current);
+  setTimeNew(0);
+  setIsActive(false)
+}
+  // const minutes = String(Math.floor(timeNew / 60)).padStart(2, "0");
+  // const secs = String(timeNew % 60).padStart(2, "0");
+  const minutes = Math.floor(timeNew / 60) ;
+  const secs = timeNew % 60;
 
   return (
-    <div>
-      <h1 style={{marginBottom:"20px"}}>StopWatch</h1>
+    <div style={{marginLeft:"10px"}}>
+      <h1 style={{marginBottom:"20px"}}>Stopwatch</h1>
       <div>
          <label>Time:</label>
-         <span>{timeNew}</span> 
+         <span>{minutes}:{secs < 10 ? `0${secs}` : secs}</span> 
       </div>
       <div style={{marginTop:"20px"}}>
-         <button>Start</button>
-         <button style={{marginLeft:"5px"}}>Reset</button>
+        {isActive ? (
+          <button onClick={() => stopTimer()}>Stop</button>
+        ) : (
+          <button onClick={() => startTimer()}>Start</button>
+        )}
+        <button style={{marginLeft:"5px"}} onClick={() => resetTimer()}>Reset</button>
       </div>
 
     </div>
