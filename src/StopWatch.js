@@ -32,8 +32,7 @@ const resetTimer = () => {
     <div style={{marginLeft:"10px"}}>
       <h1 style={{marginBottom:"20px"}}>Stopwatch</h1>
       <div>
-         <label>Time:</label>
-         <span>{minutes}:{secs < 10 ? `0${secs}` : secs}</span> 
+         <span>Time: {minutes}:{secs < 10 ? `0${secs}` : secs}</span> 
       </div>
       <div style={{marginTop:"20px"}}>
         {isActive ? (
